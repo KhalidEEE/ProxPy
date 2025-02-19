@@ -25,8 +25,17 @@ def _set_hostname():
 
 def _create_user_and_configure():
     try:
-        subprocess.run(["useradd", "-m", "-U", "-p", f"{NEW_PASSWORD}", f"{USER_NAME}"], check=True)
+        subprocess.run(["useradd", f"{USER_NAME}", "-m", "-U", "-s", "/bin/bash"], check=True)
         print("Пользователь создан")
+        # subprocess.run(["/usr/sbin/chpasswd"],
+        #     text=True,
+        #     input=f"{NEW_PASSWORD}:{NEW_PASSWORD}\n".encode(),
+        #     check=True,
+        # )
+        proc1 = subprocess.Popen([f"{NEW_PASSWORD}:{NEW_PASSWORD}"], stdout=subprocess.PIPE)
+        proc2 = subprocess.Popen("chpasswd", stdin=proc1.stdout, stdout=subprocess.PIPE)
+
+        print("Пароль задан")
     except subprocess.CalledProcessError as e:
         print("Ошибка создания пользователя:", e.stderr)
         subprocess.run(["userdel", "-r", f"{USER_NAME}"])
