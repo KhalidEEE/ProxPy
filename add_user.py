@@ -25,7 +25,7 @@ def _set_hostname():
 
 def _create_user_and_configure():
     try:
-        subprocess.run(["useradd", "-m", "-U", f"{NEW_PASSWORD}", f"{USER_NAME}"], check=True)
+        subprocess.run(["useradd", "-m", "-U", "-p", f"{NEW_PASSWORD}", f"{USER_NAME}"], check=True)
         print("Пользователь создан")
     except subprocess.CalledProcessError as e:
         print("Ошибка создания пользователя:", e.stderr)
