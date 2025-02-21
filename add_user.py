@@ -34,7 +34,6 @@ def _create_user_and_configure():
         # )
         proc1 = subprocess.Popen([f"{NEW_PASSWORD}:{NEW_PASSWORD}"], stdout=subprocess.PIPE)
         proc2 = subprocess.Popen("chpasswd", stdin=proc1.stdout, stdout=subprocess.PIPE)
-
         print("Пароль задан")
     except subprocess.CalledProcessError as e:
         print("Ошибка создания пользователя:", e.stderr)
